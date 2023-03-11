@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+datasets/most/014_GSC0110800671_2004_1687.tar
+datasets/most/014_GSC0110800671_2004_1688.tar
+datasets/most/014_GSC0110800671_2004_1689.tar
