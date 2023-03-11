@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "magnetic-field"
+version = "0.0.1"
+description = "Predicting the intensity of the magnetic field experienced by satellites in Earth orbit"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "cadcdata",
+    "pandas",
+    "astropy",
+    'importlib-metadata; python_version<"3.8"',
+]
