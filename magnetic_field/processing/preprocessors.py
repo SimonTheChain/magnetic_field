@@ -10,7 +10,7 @@ from category_encoders import OneHotEncoder
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 
-import config
+import magnetic_field.config.config as config
 
 
 # impute missing values

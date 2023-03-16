@@ -6,9 +6,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 
-import config
-import data_management
-import preprocessors
+import magnetic_field.config.config as config
+import magnetic_field.processing.data_management as data_management
+import magnetic_field.processing.preprocessors as preprocessors
 import pipeline
 
 

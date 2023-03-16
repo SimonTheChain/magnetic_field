@@ -5,7 +5,7 @@
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestRegressor
 
-import preprocessors as pp
+import magnetic_field.processing.preprocessors as pp
 
 
 magnetic_field_pipe = Pipeline(

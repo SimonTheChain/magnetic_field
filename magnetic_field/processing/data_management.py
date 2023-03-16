@@ -9,7 +9,7 @@ import pandas as pd
 from astropy.io import fits
 from cadcdata import StorageInventoryClient
 
-import config
+import magnetic_field.config.config as config
 
 
 def download_data_files():
