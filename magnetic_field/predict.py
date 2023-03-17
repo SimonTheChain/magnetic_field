@@ -13,7 +13,7 @@ _magnetic_Field_pipe = load_pipeline(pipeline_file_name)
 
 def make_prediction(input_data):
     data = pd.DataFrame(input_data)
-    prediction = _magnetic_Field_pipe.predict(data[config.KEEP])
+    prediction = _magnetic_Field_pipe.predict(data)
     output = np.exp(prediction)
 
     results = {
