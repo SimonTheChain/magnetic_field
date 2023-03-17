@@ -4,6 +4,7 @@
 
 import os
 import tarfile
+import joblib
 
 import pandas as pd
 from astropy.io import fits
@@ -20,6 +21,7 @@ def download_data_files():
         for row in to_download:
             f = row.split("cadc:")[1]
             client.cadcget(f, config.DATASETS_PATH)
+
 
 def load_datasets() -> pd.DataFrame:
     df_list = list()
@@ -77,3 +79,16 @@ def load_datasets() -> pd.DataFrame:
 
     df = pd.concat(df_list, ignore_index=True)
     return df
+
+
+def save_pipeline(pipeline_to_save):
+    save_file_name = "magnetic_field_regression_v1.pkl"
+    save_path = config.SAVED_MODEL_PATH + save_file_name
+    joblib.dump(pipeline_to_save, save_path)
+    print("Saved Pipeline: {}".format(save_file_name))
+
+
+def load_pipeline(pipeline_to_load):
+    save_path = config.SAVED_MODEL_PATH
+    trained_model = joblib.load(save_path + pipeline_to_load)
+    return trained_model

@@ -3,6 +3,7 @@
 
 DATASETS_PATH = "./datasets/most/"
 DATA_DOWNLOAD_LIST = "./datasets/most/cadcUrlList_test.txt"
+SAVED_MODEL_PATH = "../trained_models/"
 
 COLUMNS = [
     "[DEGREES] LONGITUDE OF SATELLITE",
