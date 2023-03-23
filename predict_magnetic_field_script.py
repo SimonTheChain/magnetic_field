@@ -11,12 +11,11 @@ import os
 import tarfile
 
 # external imports
-import numpy as np
 import pandas as pd
 from astropy.io import fits
 from cadcdata import StorageInventoryClient
-from category_encoders import OneHotEncoder
 from sklearn.impute import SimpleImputer
+from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
@@ -125,28 +124,14 @@ df_source = pd.concat(df_list, ignore_index=True)
 
 
 # ### Data Cleaning and Pre-Processing
-# impute missing values
-my_imputer = SimpleImputer(strategy="most_frequent", add_indicator=True, copy=True)
-df_unscaled = pd.DataFrame(my_imputer.fit_transform(df_source))
-df_unscaled.columns = df_source.columns
+# identify target and predictor features
+df_target = df_source[TARGET_FEATURE]
+df_predictors = df_source.drop([TARGET_FEATURE], axis=1)
 
-# change tabular into numeric
-encoder = OneHotEncoder(
-    cols=[CATEGORICAL_FEATURES],
-    handle_unknown='return_nan',
-    return_df=True,
-    use_cat_names=True,
-)
-df_unscaled_numeric = encoder.fit_transform(df_unscaled)
-df = df_unscaled_numeric.astype(np.float64)
+# drop categorical features to simplify the process
+df_predictors = df_predictors.drop(CATEGORICAL_FEATURES, axis=1)
 
-
-# ### Baseline Model training and validation
-# identify target and "dependant"(?) variables
-df_target = df[TARGET_FEATURE]
-df_predictors = df.drop([TARGET_FEATURE], axis=1)
-
-# split the dataset in training and test sets
+# split data in training and test sets
 X_train, X_test, y_train, y_test = train_test_split(
     df_predictors, 
     df_target,
@@ -155,12 +140,24 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=10,
 )
 
-# initialize and train model
+# impute missing values
+imputer = SimpleImputer()
+imputed_X_train = imputer.fit_transform(X_train)
+imputed_X_test = imputer.transform(X_test)
+
+# normalize data
+scaler = preprocessing.StandardScaler()
+scaled_imputed_X_train_plus = scaler.fit_transform(imputed_X_train)
+scaled_imputed_X_test_plus = scaler.transform(imputed_X_test)
+
+# ### Baseline model training and validation
+# train model
 model = RandomForestRegressor()
-model.fit(X_train, y_train)
+model.fit(scaled_imputed_X_train_plus, y_train)
 
 # make predictions
-preds = model.predict(X_test)
+preds = model.predict(scaled_imputed_X_test_plus)
 
 # evaluate model
 mean_absolute_error(y_test, preds)
+print("First five predictions: ", ", ".join(str(p) for p in preds[:5].tolist()))
