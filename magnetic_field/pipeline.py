@@ -10,8 +10,7 @@ import magnetic_field.processing.preprocessors as pp
 
 magnetic_field_pipe = Pipeline(
     [
-        ("Most Frequent Imputer", pp.FrequentImputer()),
-        ("Tabular to Numeric", pp.TabularToNumeric()),
+        ("Simple Imputer", pp.SimpleImputer()),
         ("Regressor", RandomForestRegressor()),
       ]
 )

@@ -20,6 +20,9 @@ df = data_management.load_datasets()
 df_target = df[config.TARGET_FEATURE]
 df_predictors = df.drop([config.TARGET_FEATURE], axis=1)
 
+# drop categorical features to simplify the process
+df_predictors = df_predictors.drop(config.CATEGORICAL_FEATURES, axis=1)
+
 # split the dataset in training and test sets
 X_train, X_test, y_train, y_test = train_test_split(
     df_predictors,
